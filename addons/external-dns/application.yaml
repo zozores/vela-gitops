@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: external-dns
+---
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: external-dns
+spec:
+  components:
+    - name: cloudflare-api-key
+      type: raw
+      properties:
+        apiVersion: external-secrets.io/v1beta1
+        kind: ExternalSecret
+        metadata:
+          name: cloudflare-api-key
+        spec:
+          refreshInterval: 0.03m
+          secretStoreRef:
+            kind: ClusterSecretStore
+            name: oracle
+          target:
+            name: cloudflare-api-key
+            creationPolicy: Owner
+          data:
+            - secretKey: apiKey
+              remoteRef:
+                key: cloudflare_api_key
+
+    - name: external-dns
+      type: helm
+      dependsOn:
+        - cloudflare-api-key
+      properties:
+        repoType: helm
+        url: https://kubernetes-sigs.github.io/external-dns/
+        chart: external-dns
+        version: 1.16.1
+        namespace: external-dns
+        values:
+          provider:
+            name: cloudflare
+          env:
+            - name: CF_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-api-key
+                  key: apiKey

@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tailscale
+---
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: tailscale-operator
+  namespace: tailscale
+spec:
+  components:
+    - name: tailscale-auth
+      type: raw
+      dependsOn:
+        - external-secrets
+        - secret-store
+      properties:
+        apiVersion: external-secrets.io/v1beta1
+        kind: ExternalSecret
+        metadata:
+          name: tailscale-auth
+        spec:
+          refreshInterval: 0.03m
+          secretStoreRef:
+            kind: ClusterSecretStore
+            name: oracle
+          target:
+            name: tailscale-auth
+            creationPolicy: Owner
+          data:
+            - secretKey: values.yaml
+              remoteRef:
+                key: tailscale_values
+
+    - name: tailscale-operator
+      type: helm
+      dependsOn:
+        - tailscale-auth
+      properties:
+        repoType: helm
+        url: https://pkgs.tailscale.com/helmcharts
+        chart: tailscale-operator
+        version: 1.82.0
+        namespace: tailscale
+        valuesFrom:
+          - kind: Secret
+            name: tailscale-auth
