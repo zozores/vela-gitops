@@ -53,3 +53,13 @@ spec:
             name: external-dns
             key: application.yaml
             type: configMap
+
+      - name: apply-cert-manager
+        type: apply-app
+        dependsOn:
+          - apply-external-secrets
+        properties:
+          ref:
+            name: cert-manager
+            key: application.yaml
+            type: configMap
