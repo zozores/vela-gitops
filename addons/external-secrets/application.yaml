@@ -36,32 +36,32 @@ spec:
               principalType: InstancePrincipal
 
   policies:
-  - name: external-dns-local
+  - name: external-secrets-local
     properties:
       clusters:
       - local
-      namespace: external-dns
+      namespace: external-secrets
     type: topology
-  - name: external-dns-sampa
+  - name: external-secrets-sampa
     properties:
       clusters:
       - sampa
-      namespace: external-dns
+      namespace: external-secrets
     type: topology
     
   workflow:
     steps:
     - meta:
-        alias: Deploy To external-dns-local
-      name: external-dns-local
+        alias: Deploy To external-secrets-local
+      name: external-secrets-local
       properties:
         policies:
-        - external-dns-local
+        - external-secrets-local
       type: deploy
     - meta:
-        alias: Deploy To external-dns-sampa
-      name: external-dns-sampa
+        alias: Deploy To external-secrets-sampa
+      name: external-secrets-sampa
       properties:
         policies:
-        - external-dns-sampa
+        - external-secrets-sampa
       type: deploy

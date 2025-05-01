@@ -45,32 +45,32 @@ spec:
             name: tailscale-auth
 
   policies:
-  - name: external-dns-local
+  - name: tailscale-local
     properties:
       clusters:
       - local
-      namespace: external-dns
+      namespace: tailscale
     type: topology
-  - name: external-dns-sampa
+  - name: tailscale-sampa
     properties:
       clusters:
       - sampa
-      namespace: external-dns
+      namespace: tailscale
     type: topology
     
   workflow:
     steps:
     - meta:
-        alias: Deploy To external-dns-local
-      name: external-dns-local
+        alias: Deploy To tailscale-local
+      name: tailscale-local
       properties:
         policies:
-        - external-dns-local
+        - tailscale-local
       type: deploy
     - meta:
-        alias: Deploy To external-dns-sampa
-      name: external-dns-sampa
+        alias: Deploy To tailscale-sampa
+      name: tailscale-sampa
       properties:
         policies:
-        - external-dns-sampa
+        - tailscale-sampa
       type: deploy
