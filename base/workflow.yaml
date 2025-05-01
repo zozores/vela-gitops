@@ -8,8 +8,8 @@ metadata:
     workflowrun.oam.dev/debug: "true"
     app.oam.dev/source-of-truth: from-velaux
     app.oam.dev/workflowName: workflow-base
-    app.oam.dev/publishVersion: workflow-base-2
-    app.oam.dev/deployVersion: "2"
+    app.oam.dev/publishVersion: workflow-base-3
+    app.oam.dev/deployVersion: "3"
   labels:
     project: base
 spec:
