@@ -2,8 +2,7 @@ apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
   name: cnpg
-  namespace: cnpg-system
-spec:
+  namespace: base
   components:
     - name: cnpg
       type: helm
