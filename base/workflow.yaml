@@ -2,8 +2,8 @@
 apiVersion: core.oam.dev/v1alpha1
 kind: WorkflowRun
 metadata:
-  name: wf-addons
-  namespace: addons
+  name: wf-base
+  namespace: base
   annotations:
     workflowrun.oam.dev/debug: "true"
     app.oam.dev/source-of-truth: from-velaux
@@ -17,10 +17,6 @@ spec:
             name: external-secrets
             key: application.yaml
             type: configMap
-      
-      - name: suspend
-        type: suspend
-        timeout: 5m
 
       - name: apply-tailscale
         type: apply-app
@@ -32,10 +28,6 @@ spec:
             key: application.yaml
             type: configMap
 
-      - name: suspend
-        type: suspend
-        timeout: 5m
-
       - name: apply-ingress-nginx
         type: apply-app
         dependsOn:
@@ -45,10 +37,6 @@ spec:
             name: ingress-nginx
             key: application.yaml
             type: configMap
-
-      - name: suspend
-        type: suspend
-        timeout: 5m
 
       - name: apply-external-dns
         type: apply-app

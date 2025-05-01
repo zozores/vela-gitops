@@ -2,15 +2,15 @@
 apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
-  name: addons
+  name: base
   namespace: default
 spec:
   components:
-    - name: git-addons
+    - name: git-base
       type: kustomize
       properties:
         repoType: git
         url: https://github.com/zozores/vela-gitops
         git:
           branch: main
-        path: ./addons
+        path: ./base

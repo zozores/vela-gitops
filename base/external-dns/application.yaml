@@ -2,7 +2,7 @@ apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
   name: external-dns
-  namespace: addons
+  namespace: base
 spec:
   components:
     - name: cloudflare-api-key
