@@ -63,3 +63,13 @@ spec:
             name: cert-manager
             key: application.yaml
             type: configMap
+
+      - name: apply-cnpg
+        type: apply-app
+        dependsOn:
+          - apply-external-secrets
+        properties:
+          ref:
+            name: cnpg
+            key: application.yaml
+            type: configMap

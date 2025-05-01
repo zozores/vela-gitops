@@ -31,3 +31,8 @@ configMapGenerator:
       disableNameSuffixHash: true
     files:
       - cert-manager/application.yaml
+  - name: cnpg
+    options:
+      disableNameSuffixHash: true
+    files:
+      - cnpg/application.yaml

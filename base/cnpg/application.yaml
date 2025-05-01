@@ -1,8 +1,3 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: cnpg-system
----
 apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
@@ -27,15 +22,16 @@ spec:
         metadata: 
           namespace: cnpg-system
         spec:
-          refreshInterval: 0.03m
           secretStoreRef:
             kind: ClusterSecretStore
-            name: oracle
+            name: infisical
           target:
             name: cnpg-secret
             namespace: cnpg-system
-            creationPolicy: Owner
           data:
+            - secretKey: username
+              remoteRef:
+                key: cnpg_username
             - secretKey: password
               remoteRef:
                 key: cnpg_password
@@ -62,3 +58,21 @@ spec:
                 owner: cnpg
                 secret:
                   name: cnpg-secret
+
+  policies:
+  - name: cnpg-sampa
+    properties:
+      clusters:
+      - sampa
+      namespace: cnpg-system
+    type: topology
+
+  workflow:
+    steps:
+    - meta:
+        alias: Deploy To cnpg-sampa
+      name: cnpg-sampa
+      properties:
+        policies:
+        - cnpg-sampa
+      type: deploy
