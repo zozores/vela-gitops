@@ -22,6 +22,9 @@ vela-addons:
 vela-pf:
 	vela port-forward -n vela-system addon-velaux 8000:8000
 
+capacitor:
+	kubectl port-forward -n flux-system svc/capacitor 9000:9000
+
 apply-base:
 	vela up -f clusters/production/base.yaml
 

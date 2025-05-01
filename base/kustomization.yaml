@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: base
 resources:
   - workflow.yaml
-  - capacitor/application.yaml
 
 configMapGenerator:
   - name: external-secrets
