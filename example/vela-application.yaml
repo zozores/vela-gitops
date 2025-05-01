@@ -1,0 +1,60 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  annotations:
+    app.oam.dev/appAlias: ""
+    app.oam.dev/appName: external-secrets
+    app.oam.dev/deployVersion: "20250430002031415"
+    app.oam.dev/last-applied-configuration: '{"kind":"Application","apiVersion":"core.oam.dev/v1beta1","metadata":{"name":"external-secrets","namespace":"production","creationTimestamp":null,"labels":{"app.oam.dev/appName":"external-secrets","app.oam.dev/source-of-truth":"from-velaux","oam.dev/render-hash":"4f8783b45b5a720f"},"annotations":{"app.oam.dev/appAlias":"","app.oam.dev/appName":"external-secrets","app.oam.dev/deployVersion":"20250430002031415","app.oam.dev/publishVersion":"workflow-production-20250430002031424","app.oam.dev/workflowName":"workflow-production"}},"spec":{"components":[{"name":"external-secrets","type":"helm","properties":{"chart":"external-secrets","repoType":"helm","retries":3,"secretRef":"","url":"https://charts.external-secrets.io","version":"0.16.1"}}],"policies":[{"name":"external-secrets-local","type":"topology","properties":{"clusters":["local"],"namespace":"external-secrets"}},{"name":"external-secrets-sampa","type":"topology","properties":{"clusters":["sampa"],"namespace":"external-secrets"}}],"workflow":{"mode":{},"steps":[{"name":"external-secrets-local","type":"deploy","meta":{"alias":"Deploy
+      To external-secrets-local"},"properties":{"policies":["external-secrets-local"]}},{"name":"external-secrets-sampa","type":"deploy","meta":{"alias":"Deploy
+      To external-secrets-sampa"},"properties":{"policies":["external-secrets-sampa"]}}]}},"status":{}}'
+    app.oam.dev/last-applied-time: "2025-04-30T00:20:31Z"
+    app.oam.dev/publishVersion: workflow-production-20250430002031424
+    app.oam.dev/workflowName: workflow-production
+    oam.dev/kubevela-version: v1.10.2
+  labels:
+    app.oam.dev/appName: external-secrets
+    app.oam.dev/source-of-truth: from-velaux
+    oam.dev/render-hash: 4f8783b45b5a720f
+  name: external-secrets
+  namespace: production
+spec:
+  components:
+  - name: external-secrets
+    properties:
+      chart: external-secrets
+      repoType: helm
+      retries: 3
+      secretRef: ""
+      url: https://charts.external-secrets.io
+      version: 0.16.1
+    type: helm
+  policies:
+  - name: external-secrets-local
+    properties:
+      clusters:
+      - local
+      namespace: external-secrets
+    type: topology
+  - name: external-secrets-sampa
+    properties:
+      clusters:
+      - sampa
+      namespace: external-secrets
+    type: topology
+  workflow:
+    steps:
+    - meta:
+        alias: Deploy To external-secrets-local
+      name: external-secrets-local
+      properties:
+        policies:
+        - external-secrets-local
+      type: deploy
+    - meta:
+        alias: Deploy To external-secrets-sampa
+      name: external-secrets-sampa
+      properties:
+        policies:
+        - external-secrets-sampa
+      type: deploy

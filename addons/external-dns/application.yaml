@@ -49,3 +49,34 @@ spec:
                 secretKeyRef:
                   name: cloudflare-api-key
                   key: apiKey
+
+  policies:
+  - name: external-dns-local
+    properties:
+      clusters:
+      - local
+      namespace: external-dns
+    type: topology
+  - name: external-dns-sampa
+    properties:
+      clusters:
+      - sampa
+      namespace: external-dns
+    type: topology
+    
+  workflow:
+    steps:
+    - meta:
+        alias: Deploy To external-dns-local
+      name: external-dns-local
+      properties:
+        policies:
+        - external-dns-local
+      type: deploy
+    - meta:
+        alias: Deploy To external-dns-sampa
+      name: external-dns-sampa
+      properties:
+        policies:
+        - external-dns-sampa
+      type: deploy
