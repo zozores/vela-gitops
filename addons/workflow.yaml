@@ -9,13 +9,8 @@ metadata:
 spec:
   workflowSpec:
     steps:
-      - name: check-external-secrets
-        type: read-app
-        properties:
-          name: external-secrets
       - name: apply-external-secrets
         type: apply-app
-        if: status["check-external-secrets"].message == "Application not found"
         properties:
           ref:
             name: external-secrets
@@ -26,13 +21,8 @@ spec:
         type: suspend
         timeout: 5m
 
-      - name: check-tailscale
-        type: read-app
-        properties:
-          name: tailscale
       - name: apply-tailscale
         type: apply-app
-        if: status["check-tailscale"].message == "Application not found"
         properties:
           ref:
             name: tailscale
@@ -43,13 +33,8 @@ spec:
         type: suspend
         timeout: 5m
 
-      - name: check-ingress-nginx
-        type: read-app
-        properties:
-          name: ingress-nginx
       - name: apply-ingress-nginx
         type: apply-app
-        if: status["check-ingress-nginx"].message == "Application not found"
         properties:
           ref:
             name: ingress-nginx
@@ -60,13 +45,8 @@ spec:
         type: suspend
         timeout: 5m
 
-      - name: check-external-dns
-        type: read-app
-        properties:
-          name: external-dns
       - name: apply-external-dns
         type: apply-app
-        if: status["check-external-dns"].message == "Application not found"
         properties:
           ref:
             name: external-dns
