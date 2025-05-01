@@ -1,15 +1,15 @@
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
+apiVersion: core.oam.dev/v1beta1
+kind: Application
 metadata:
   name: addons
-  namespace: flux-system
 spec:
-  interval: 10m0s
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./addons
-  prune: true
-  wait: true
-  timeout: 5m0s
+  components:
+    - name: git-addons
+      type: kustomize
+      properties:
+        repoType: git
+        url: https://github.com/zozores/vela-gitops
+        git:
+          branch: main
+        path: ./addons
