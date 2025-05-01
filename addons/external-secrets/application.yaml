@@ -2,7 +2,7 @@ apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
   name: external-secrets
-  namespace: external-secrets
+  namespace: addons
 spec:
   components:
     - name: external-secrets

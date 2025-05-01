@@ -3,6 +3,7 @@ apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
   name: addons
+  namespace: default
 spec:
   components:
     - name: git-addons

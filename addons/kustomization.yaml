@@ -1,12 +1,8 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: default
+namespace: addons
 resources:
-  - external-secrets/namespace.yaml
-  - tailscale/namespace.yaml
-  - ingress-nginx/namespace.yaml
-  - external-dns/namespace.yaml
   - workflow.yaml
 
 configMapGenerator:

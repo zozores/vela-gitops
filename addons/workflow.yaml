@@ -3,7 +3,7 @@ apiVersion: core.oam.dev/v1alpha1
 kind: WorkflowRun
 metadata:
   name: wf-addons
-  namespace: default
+  namespace: addons
   annotations:
     workflowrun.oam.dev/debug: "true"
     app.oam.dev/source-of-truth: from-velaux

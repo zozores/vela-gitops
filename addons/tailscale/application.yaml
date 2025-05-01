@@ -2,7 +2,7 @@ apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
   name: tailscale-operator
-  namespace: tailscale
+  namespace: addons
 spec:
   components:
     - name: tailscale-auth
