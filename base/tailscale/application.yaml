@@ -13,13 +13,11 @@ spec:
         metadata:
           name: tailscale-auth
         spec:
-          refreshInterval: 0.03m
           secretStoreRef:
             kind: ClusterSecretStore
-            name: oracle
+            name: infisical
           target:
             name: tailscale-auth
-            creationPolicy: Owner
           data:
             - secretKey: values.yaml
               remoteRef:

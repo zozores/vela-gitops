@@ -22,13 +22,25 @@ spec:
         apiVersion: external-secrets.io/v1beta1
         kind: ClusterSecretStore
         metadata:
-          name: oracle
+          name: infisical
         spec:
           provider:
-            oracle:
-              vault: ocid1.vault.oc1.sa-saopaulo-1.ffua45bdaacnc.abtxeljriv57fvxdpmosqg5letcgqvgqs4b63rhzqzdulxexfghp4ny7ik5a
-              region: sa-saopaulo-1
-              principalType: InstancePrincipal
+            infisical:
+              auth:
+                universalAuthCredentials:
+                  clientId:
+                    key: clientId
+                    namespace: default
+                    name: infisical-auth-credentials
+                  clientSecret:
+                    key: clientSecret
+                    namespace: default
+                    name: infisical-auth-credentials
+              secretsScope:
+                projectSlug: taotec-iv-vb
+                environmentSlug: prod
+                secretsPath: /
+              hostAPI: https://app.infisical.com
 
   policies:
   - name: external-secrets-local

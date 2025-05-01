@@ -7,6 +7,7 @@ metadata:
   annotations:
     workflowrun.oam.dev/debug: "true"
     app.oam.dev/source-of-truth: from-velaux
+    
 spec:
   workflowSpec:
     steps:
