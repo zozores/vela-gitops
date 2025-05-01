@@ -38,8 +38,6 @@ spec:
         values:
           crds:
             enabled: true
-          provider:
-            name: cloudflare
 
     - name: cloudflare-issuer
       type: raw
