@@ -13,24 +13,20 @@ configMapGenerator:
   - name: external-secrets
     options:
       disableNameSuffixHash: true
-    namespace: default
     files:
       - external-secrets/application.yaml
   - name: tailscale
     options:
       disableNameSuffixHash: true
-    namespace: default
     files:
       - tailscale/application.yaml
   - name: ingress-nginx
     options:
       disableNameSuffixHash: true
-    namespace: default
     files:
       - ingress-nginx/application.yaml
   - name: external-dns
     options:
       disableNameSuffixHash: true
-    namespace: default
     files:
       - external-dns/application.yaml
