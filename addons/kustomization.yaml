@@ -10,25 +10,21 @@ resources:
 
 configMapGenerator:
   - name: external-secrets
-    behavior: merge
     disableNameSuffixHash: true
     namespace: default
     files:
       - external-secrets/application.yaml
   - name: tailscale
-    behavior: merge
-    namespace: default
     disableNameSuffixHash: true
+    namespace: default
     files:
       - tailscale/application.yaml
   - name: ingress-nginx
-    behavior: merge
     disableNameSuffixHash: true
     namespace: default
     files:
       - ingress-nginx/application.yaml
   - name: external-dns
-    behavior: merge
     disableNameSuffixHash: true
     namespace: default
     files:
