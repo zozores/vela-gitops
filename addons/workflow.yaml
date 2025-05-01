@@ -1,0 +1,74 @@
+---
+apiVersion: core.oam.dev/v1alpha1
+kind: WorkflowRun
+metadata:
+  name: addons
+  namespace: default
+  annotations:
+    workflowrun.oam.dev/debug: "true"
+spec:
+  workflowSpec:
+    steps:
+      - name: check-external-secrets
+        type: read-app
+        properties:
+          name: external-secrets
+      - name: apply-external-secrets
+        type: apply-app
+        if: status["check-external-secrets"].message == "Application not found"
+        properties:
+          ref:
+            name: external-secrets
+            key: application.yaml
+            type: configMap
+      
+      - name: suspend
+        type: suspend
+        timeout: 5m
+
+      - name: check-tailscale
+        type: read-app
+        properties:
+          name: tailscale
+      - name: apply-tailscale
+        type: apply-app
+        if: status["check-tailscale"].message == "Application not found"
+        properties:
+          ref:
+            name: tailscale
+            key: application.yaml
+            type: configMap
+
+      - name: suspend
+        type: suspend
+        timeout: 5m
+
+      - name: check-ingress-nginx
+        type: read-app
+        properties:
+          name: ingress-nginx
+      - name: apply-ingress-nginx
+        type: apply-app
+        if: status["check-ingress-nginx"].message == "Application not found"
+        properties:
+          ref:
+            name: ingress-nginx
+            key: application.yaml
+            type: configMap
+
+      - name: suspend
+        type: suspend
+        timeout: 5m
+
+      - name: check-external-dns
+        type: read-app
+        properties:
+          name: external-dns
+      - name: apply-external-dns
+        type: apply-app
+        if: status["check-external-dns"].message == "Application not found"
+        properties:
+          ref:
+            name: external-dns
+            key: application.yaml
+            type: configMap
