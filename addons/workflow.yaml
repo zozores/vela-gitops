@@ -23,6 +23,8 @@ spec:
 
       - name: apply-tailscale
         type: apply-app
+        dependsOn:
+          - apply-external-secrets
         properties:
           ref:
             name: tailscale
@@ -35,6 +37,8 @@ spec:
 
       - name: apply-ingress-nginx
         type: apply-app
+        dependsOn:
+          - apply-tailscale
         properties:
           ref:
             name: ingress-nginx
@@ -47,6 +51,9 @@ spec:
 
       - name: apply-external-dns
         type: apply-app
+        dependsOn:
+          - apply-external-secrets
+          - apply-ingress-nginx
         properties:
           ref:
             name: external-dns
