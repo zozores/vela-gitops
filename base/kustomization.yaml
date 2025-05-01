@@ -26,3 +26,9 @@ configMapGenerator:
       disableNameSuffixHash: true
     files:
       - external-dns/application.yaml
+  - name: cert-manager
+    options:
+      disableNameSuffixHash: true
+    files:
+      - cert-manager/application.yaml
+    

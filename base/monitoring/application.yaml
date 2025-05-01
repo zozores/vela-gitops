@@ -1,13 +1,10 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: monitoring
----
 apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
   name: kube-prometheus-stack
-  namespace: monitoring
+  namespace: base
+  labels:
+    project: base
 spec:
   components:
     - name: kube-prometheus-stack

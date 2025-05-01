@@ -1,0 +1,93 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: base
+  labels:
+    project: base
+spec:
+  components:
+    - name: cloudflare-api-key
+      type: raw
+      properties:
+        apiVersion: external-secrets.io/v1beta1
+        kind: ExternalSecret
+        metadata:
+          name: cloudflare-api-key
+        spec:
+          secretStoreRef:
+            kind: ClusterSecretStore
+            name: infisical
+          target:
+            name: cloudflare-api-key
+          data:
+            - secretKey: apiKey
+              remoteRef:
+                key: cloudflare_api_key
+
+    - name: cert-manager
+      type: helm
+      dependsOn:
+        - cloudflare-api-key
+      properties:
+        repoType: helm
+        url: https://charts.jetstack.io
+        chart: cert-manager
+        version: v1.17.2
+        namespace: cert-manager
+        values:
+          crds:
+            enabled: true
+          provider:
+            name: cloudflare
+
+    - name: cloudflare-issuer
+      type: raw
+      dependsOn:
+        - cert-manager
+      properties:
+        apiVersion: cert-manager.io/v1
+        kind: ClusterIssuer
+        metadata:
+          name: cloudflare-issuer
+        spec:
+          acme:
+            server: https://acme-v02.api.letsencrypt.org/directory
+            email: thiago@tao.tec.br
+            solvers:
+              - dns01:
+                  cloudflare:
+                    apiTokenSecretRef:
+                      name: cloudflare-api-key
+                      key: apiKey
+
+  policies:
+  - name: cert-manager-local
+    properties:
+      clusters:
+      - local
+      namespace: cert-manager
+    type: topology
+  - name: cert-manager-sampa
+    properties:
+      clusters:
+      - sampa
+      namespace: cert-manager
+    type: topology
+
+  workflow:
+    steps:
+    - meta:
+        alias: Deploy To cert-manager-local
+      name: cert-manager-local
+      properties:
+        policies:
+        - cert-manager-local
+      type: deploy
+    - meta:
+        alias: Deploy To cert-manager-sampa
+      name: cert-manager-sampa
+      properties:
+        policies:
+        - cert-manager-sampa
+      type: deploy
