@@ -10,6 +10,8 @@ metadata:
     app.oam.dev/workflowName: workflow-base
     app.oam.dev/publishVersion: workflow-base-1
     app.oam.dev/deployVersion: "1"
+  labels:
+    project: base
 spec:
   workflowSpec:
     steps:
