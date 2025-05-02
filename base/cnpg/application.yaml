@@ -33,8 +33,8 @@ spec:
             template:
               type: kubernetes.io/basic-auth
               data:
-                username: "{{ .username | base64Encode }}"
-                password: "{{ .password | base64Encode }}"
+                username: "{{ .username | b64enc }}"
+                password: "{{ .password | b64enc }}"
           data:
             - secretKey: username
               remoteRef:
