@@ -64,12 +64,18 @@ spec:
             key: application.yaml
             type: configMap
 
-      - name: apply-cnpg
+      - name: apply-monitoring-tools
         type: apply-app
-        dependsOn:
-          - apply-external-secrets
         properties:
           ref:
-            name: cnpg
-            key: application.yaml
+            name: monitoring
+            key: application-tools.yaml
+            type: configMap
+
+      - name: apply-monitoring-sampa
+        type: apply-app
+        properties:
+          ref:
+            name: monitoring
+            key: application-sampa.yaml
             type: configMap

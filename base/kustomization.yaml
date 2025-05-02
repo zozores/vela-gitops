@@ -31,8 +31,9 @@ configMapGenerator:
       disableNameSuffixHash: true
     files:
       - cert-manager/application.yaml
-  - name: cnpg
+  - name: monitoring
     options:
       disableNameSuffixHash: true
     files:
-      - cnpg/application.yaml
+      - monitoring/application-tools.yaml
+      - monitoring/application-sampa.yaml

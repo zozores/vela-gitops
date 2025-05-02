@@ -16,6 +16,10 @@ spec:
         version: 70.10.0
         namespace: monitoring
         values:
+          grafana:
+            enabled: false
+          alertmanager:
+            enabled: false
           prometheus:
             prometheusSpec:
               storageSpec:
@@ -27,3 +31,21 @@ spec:
                     resources:
                       requests:
                         storage: 20Gi
+
+  policies:
+  - name: monitoring-sampa
+    properties:
+      clusters:
+      - sampa
+      namespace: monitoring
+    type: topology
+    
+  workflow:
+    steps:
+    - meta:
+        alias: Deploy To monitoring-sampa
+      name: monitoring-sampa
+      properties:
+        policies:
+        - monitoring-sampa
+      type: deploy

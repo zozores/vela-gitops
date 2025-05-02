@@ -1,0 +1,47 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: base
+  labels:
+    project: base
+spec:
+  components:
+    - name: kube-prometheus-stack
+      type: helm
+      properties:
+        repoType: helm
+        url: https://prometheus-community.github.io/helm-charts
+        chart: kube-prometheus-stack
+        version: 70.10.0
+        namespace: monitoring
+        values:
+          prometheus:
+            prometheusSpec:
+              storageSpec:
+                volumeClaimTemplate:
+                  spec:
+                    storageClassName: local-path
+                    accessModes:
+                      - ReadWriteOnce
+                    resources:
+                      requests:
+                        storage: 20Gi
+
+  policies:
+  - name: monitoring-local
+    properties:
+      clusters:
+      - local
+      namespace: monitoring
+    type: topology
+    
+  workflow:
+    steps:
+    - meta:
+        alias: Deploy To monitoring-local
+      name: monitoring-local
+      properties:
+        policies:
+        - monitoring-local
+      type: deploy
