@@ -16,38 +16,10 @@ spec:
         version: 0.23.2
         namespace: cnpg-system
 
-    - name: cnpg-secret
-      type: raw
-      properties:
-        apiVersion: external-secrets.io/v1beta1
-        kind: ExternalSecret
-        metadata: 
-          namespace: cnpg-system
-        spec:
-          secretStoreRef:
-            kind: ClusterSecretStore
-            name: infisical
-          target:
-            name: cnpg-secret
-            namespace: cnpg-system
-            template:
-              type: kubernetes.io/basic-auth
-              data:
-                username: "{{ .username }}"
-                password: "{{ .password }}"
-          data:
-            - secretKey: username
-              remoteRef:
-                key: cnpg_username
-            - secretKey: password
-              remoteRef:
-                key: cnpg_password
-
     - name: cnpg-cluster
       type: raw
       dependsOn:
         - cnpg
-        - cnpg-secret
       properties:
         apiVersion: postgresql.cnpg.io/v1
         kind: Cluster
@@ -61,10 +33,10 @@ spec:
             storageClass: local-path
             bootstrap:
               initdb:
-                database: cnpg
-                owner: cnpg
+                database: app
+                owner: app
                 secret:
-                  name: cnpg-secret
+                  name: cnpg-app
 
   policies:
   - name: cnpg-sampa
