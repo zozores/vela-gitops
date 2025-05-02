@@ -32,9 +32,9 @@ spec:
             namespace: cnpg-system
           template:
             type: kubernetes.io/basic-auth
-            data: |
-              username={{ .username | base64Encode }}
-              password={{ .password | base64Encode }}
+            data:
+              username={{ .username }}
+              password={{ .password }}
           data:
             - secretKey: username
               remoteRef:
