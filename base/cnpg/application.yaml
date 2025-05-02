@@ -32,7 +32,7 @@ spec:
             namespace: cnpg-system
           template:
             type: kubernetes.io/basic-auth
-          data:
+            data:
             - secretKey: username
               remoteRef:
                 key: cnpg_username
