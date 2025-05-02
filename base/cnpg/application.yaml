@@ -30,11 +30,11 @@ spec:
           target:
             name: cnpg-secret
             namespace: cnpg-system
-          template:
-            type: kubernetes.io/basic-auth
-            data:
-              username={{ .username }}
-              password={{ .password }}
+            template:
+              type: kubernetes.io/basic-auth
+              data:
+                username={{ .username }}
+                password={{ .password }}
           data:
             - secretKey: username
               remoteRef:
