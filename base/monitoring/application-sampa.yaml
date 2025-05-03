@@ -1,13 +1,13 @@
 apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
-  name: kube-prometheus-stack
+  name: kube-prometheus-sampa
   namespace: base
   labels:
     project: base
 spec:
   components:
-    - name: kube-prometheus-stack
+    - name: kube-prometheus-sampa
       type: helm
       properties:
         repoType: helm
