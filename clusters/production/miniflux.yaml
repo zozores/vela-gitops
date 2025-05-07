@@ -1,0 +1,16 @@
+---
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: miniflux
+  namespace: default
+spec:
+  components:
+    - name: git-miniflux
+      type: kustomize
+      properties:
+        repoType: git
+        url: https://github.com/zozores/vela-gitops
+        git:
+          branch: main
+        path: ./apps/miniflux

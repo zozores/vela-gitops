@@ -1,12 +1,9 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: miniflux
----
 apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
-  name: miniflux
+  name: miniflux-app
+  labels:
+    project: miniflux
 spec:
   components:
     - name: miniflux-admin
@@ -17,26 +14,26 @@ spec:
         metadata:
           name: miniflux-admin
         spec:
-          refreshInterval: 0.03m
           secretStoreRef:
             kind: ClusterSecretStore
-            name: oracle
+            name: infisical
           target:
             name: miniflux-admin
-            creationPolicy: Owner
           data:
             - secretKey: username
               remoteRef:
-                key: miniflux_username
+                key: miniflux_admin_username
             - secretKey: password
               remoteRef:
-                key: miniflux_password
+                key: miniflux_admin_password
             - secretKey: database_url
               remoteRef:
                 key: miniflux_database_url
 
     - name: miniflux
       type: webservice
+      dependsOn:
+        - miniflux-admin
       properties:
         image: docker.io/miniflux/miniflux:2.2.8
         port: 8080
@@ -65,6 +62,26 @@ spec:
         - type: gateway
           properties:
             class: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-prod"
             domain: news.tao.tec.br
             http:
               /: 8080
+
+  policies:
+  - name: miniflux-app-sampa
+    properties:
+      clusters:
+      - sampa
+      namespace: miniflux
+    type: topology
+    
+  workflow:
+    steps:
+    - meta:
+        alias: Deploy To miniflux-app-sampa
+      name: miniflux-app-sampa
+      properties:
+        policies:
+        - miniflux-app-sampa
+      type: deploy

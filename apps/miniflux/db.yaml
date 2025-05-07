@@ -1,0 +1,71 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: miniflux-db
+  labels:
+    project: miniflux
+spec:
+  components:
+    - name: miniflux-db-creds
+      type: raw
+      properties:
+        apiVersion: external-secrets.io/v1beta1
+        kind: ExternalSecret
+        metadata:
+          name: miniflux-db-creds
+          namespace: miniflux
+        spec:
+          secretStoreRef:
+            kind: ClusterSecretStore
+            name: infisical
+          target:
+            name: miniflux-db-creds
+          data:
+            - secretKey: admin_password
+              remoteRef:
+                key: miniflux_db_admin_password
+            - secretKey: user_password
+              remoteRef:
+                key: miniflux_db_user_password
+
+    - name: postgresql
+      type: helm
+      dependsOn:
+        - miniflux-db-creds
+      properties:
+        repoType: helm
+        url: https://charts.bitnami.com/bitnami
+        chart: postgresql
+        version: 16.6.6
+        namespace: miniflux
+        values:
+          auth:
+            username: miniflux
+            database: miniflux
+            existingSecret: miniflux-db-creds
+            secretKeys:
+              adminPasswordKey: admin_password
+              userPasswordKey: user_password
+          primary:
+            persistence:
+              enabled: true
+              size: 1Gi
+              storageClass: local-path
+
+  policies:
+  - name: miniflux-db-sampa
+    properties:
+      clusters:
+      - sampa
+      namespace: miniflux
+    type: topology
+    
+  workflow:
+    steps:
+    - meta:
+        alias: Deploy To miniflux-db-sampa
+      name: miniflux-db-sampa
+      properties:
+        policies:
+        - miniflux-db-sampa
+      type: deploy
