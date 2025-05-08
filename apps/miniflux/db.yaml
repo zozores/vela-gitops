@@ -33,7 +33,7 @@ spec:
       dependsOn:
         - miniflux-db-creds
       properties:
-        repoType: "helm"
+        repoType: "oci"
         url: "https://charts.bitnami.com/bitnami"
         chart: postgresql
         version: "16.7.1"
