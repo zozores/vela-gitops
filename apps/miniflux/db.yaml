@@ -35,7 +35,7 @@ spec:
       properties:
         repoType: helm
         url: https://charts.bitnami.com/bitnami
-        chart: bitnami/postgresql
+        chart: postgresql
         version: 16.6.7
         namespace: miniflux
         values:
