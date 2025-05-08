@@ -33,10 +33,10 @@ spec:
       dependsOn:
         - miniflux-db-creds
       properties:
-        repoType: helm
-        url: oci://registry-1.docker.io/bitnamicharts
+        repoType: "oci"
+        url: "oci://registry-1.docker.io/bitnamicharts/postgresql"
         chart: postgresql
-        version: 16.6.7
+        version: "16.6.7"
         namespace: miniflux
         values:
           auth:
