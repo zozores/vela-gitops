@@ -34,7 +34,7 @@ spec:
         - miniflux-db-creds
       properties:
         repoType: helm
-        url: https://charts.bitnami.com/bitnami
+        url: oci://registry-1.docker.io/bitnamicharts
         chart: postgresql
         version: 16.6.7
         namespace: miniflux
