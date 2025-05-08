@@ -10,9 +10,8 @@ metadata:
     app.oam.dev/workflowName: workflow-miniflux
     app.oam.dev/publishVersion: workflow-miniflux-1
     app.oam.dev/deployVersion: "1"
-  labels:
-    project: miniflux
 spec:
+  project: miniflux
   workflowSpec:
     steps:
       - name: apply-db

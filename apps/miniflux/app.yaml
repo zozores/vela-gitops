@@ -2,9 +2,9 @@ apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
   name: miniflux-app
-  labels:
-    project: miniflux
+  namespace: miniflux
 spec:
+  project: miniflux
   components:
     - name: miniflux-admin
       type: raw
@@ -69,19 +69,19 @@ spec:
               /: 8080
 
   policies:
-  - name: miniflux-app-sampa
-    properties:
-      clusters:
-      - sampa
-      namespace: miniflux
-    type: topology
-    
+    - name: miniflux-app-sampa
+      properties:
+        clusters:
+          - sampa
+        namespace: miniflux
+      type: topology
+
   workflow:
     steps:
-    - meta:
-        alias: Deploy To miniflux-app-sampa
-      name: miniflux-app-sampa
-      properties:
-        policies:
-        - miniflux-app-sampa
-      type: deploy
+      - meta:
+          alias: Deploy To miniflux-app-sampa
+        name: miniflux-app-sampa
+        properties:
+          policies:
+            - miniflux-app-sampa
+        type: deploy

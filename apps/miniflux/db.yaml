@@ -2,9 +2,9 @@ apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
   name: miniflux-db
-  labels:
-    project: miniflux
+  namespace: miniflux
 spec:
+  project: miniflux
   components:
     - name: miniflux-db-creds
       type: raw
@@ -35,8 +35,8 @@ spec:
       properties:
         repoType: helm
         url: https://charts.bitnami.com/bitnami
-        chart: postgresql
-        version: 16.6.6
+        chart: bitnami/postgresql
+        version: 16.6.7
         namespace: miniflux
         values:
           auth:
@@ -53,19 +53,19 @@ spec:
               storageClass: local-path
 
   policies:
-  - name: miniflux-db-sampa
-    properties:
-      clusters:
-      - sampa
-      namespace: miniflux
-    type: topology
-    
+    - name: miniflux-db-sampa
+      properties:
+        clusters:
+          - sampa
+        namespace: miniflux
+      type: topology
+
   workflow:
     steps:
-    - meta:
-        alias: Deploy To miniflux-db-sampa
-      name: miniflux-db-sampa
-      properties:
-        policies:
-        - miniflux-db-sampa
-      type: deploy
+      - meta:
+          alias: Deploy To miniflux-db-sampa
+        name: miniflux-db-sampa
+        properties:
+          policies:
+            - miniflux-db-sampa
+        type: deploy

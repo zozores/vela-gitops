@@ -5,6 +5,7 @@ metadata:
   name: miniflux
   namespace: default
 spec:
+  project: default
   components:
     - name: git-miniflux
       type: kustomize
